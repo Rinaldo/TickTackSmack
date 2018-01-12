@@ -182,8 +182,7 @@ TicTacToeGame.prototype.enter = function(position, isComputer) {
     } else {
       this.swapFriendFoe();
       if (!isComputer) {
-        let that = this;
-        setTimeout(function() {that.go()}, 700);
+        setTimeout(this.go.bind(this), 700);
       }
     }
     return this.board[position]
@@ -280,3 +279,5 @@ $(function() {
   })
 
 })
+
+var game = new TicTacToeGame('hard');
