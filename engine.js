@@ -38,6 +38,7 @@ TicTacToeGame.prototype.reset = function() {
   this.history = [];
   this.friend = 'x';
   this.foe = 'o';
+  this.gameComplete = false;
   console.clear();
   console.log(this.draw());
   if (this.mode === 'smackdown') {
@@ -170,14 +171,14 @@ TicTacToeGame.prototype.go = function() {
 
 TicTacToeGame.prototype.enter = function(position, isComputer) {
 
-  if (!this.history.gameComplete && this.board[position] === ' ') {
+  if (!this.gameComplete && this.board[position] === ' ') {
     this.board[position] = this.friend;
     this.history.push(this.board.slice());
     console.clear();
     console.log(this.draw());
     let gameResult = this.calculateGameResult();
     if (gameResult) {
-      this.history.gameComplete = true;
+      this.gameComplete = true;
       console.log(gameResult);
     } else {
       this.swapFriendFoe();
@@ -254,6 +255,10 @@ $(function() {
       let _game = game;
       setTimeout(function() {
         _game.go()
+        let message = game.calculateGameResult();
+        if (message) {
+          $('#title').text(message);
+        }
         setTableValues()
       }, 700);
     }
