@@ -2,6 +2,10 @@
 node_modules
 bower_components
 
+# bundles
+bundle.js
+bundle.js.map
+
 # OS-generated files
 .DS_Store
 .DS_Store?
