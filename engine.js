@@ -89,6 +89,7 @@ TicTacToeGame.prototype.calculateCellScores = function(rowScores) {
     rowScores[1] += this.rowPoints.friend
     rowScores[4] += this.rowPoints.friend
   }
+
   //list of rows that each cell is a part of
   let cellRows = [[0, 3, 6], [0, 4], [0, 5, 7], [1, 3],
     [1, 4, 6, 7], [1, 5], [2, 3, 7], [2, 4], [2, 5, 6]];
@@ -233,56 +234,5 @@ TicTacToeGame.prototype.changeMode = function(mode) {
   this.mode = mode;
   this.reset();
 }
-
-
-$(function() {
-
-  let game = new TicTacToeGame('hard');
-  let messageDefault = 'Play TicTacToe!';
-  $('#title').text(messageDefault);
-  setTableValues();
-
-  function setTableValues() {
-    $('.gameCell').each(function(index) {
-      $(this).text(game.board[index]);
-    })
-  }
-
-  $('.gameBoard').on('click', '.gameCell', function() {
-    let move = game.enter(+$(this).attr('id').slice(-1), true);
-    if (move) {
-      $(this).text(move);
-      let _game = game;
-      setTimeout(function() {
-        _game.go()
-        let message = game.calculateGameResult();
-        if (message) {
-          $('#title').text(message);
-        }
-        setTableValues()
-      }, 700);
-    }
-    let message = game.calculateGameResult();
-    if (message) {
-      $('#title').text(message);
-    }
-  })
-
-  $('#computer-go').on('click', function() {
-    game.go()
-    setTableValues();
-    let message = game.calculateGameResult();
-    if (message) {
-      $('#title').text(message);
-    }
-  })
-
-  $('#mode').on('click', 'button', function() {
-    game.changeMode($(this).text());
-    setTableValues();
-    $('#title').text(messageDefault);
-  })
-
-})
 
 var game = new TicTacToeGame('hard');
