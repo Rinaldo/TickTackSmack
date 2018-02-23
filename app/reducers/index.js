@@ -1,9 +1,9 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux-immutable'
 
-import game from './game'
+import gameState from './game'
 
 const rootReducer = combineReducers({
-  game
+  gameState
 })
 
 export default rootReducer

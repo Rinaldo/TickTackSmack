@@ -1,27 +1,37 @@
 import { List, Map } from 'immutable'
 
 const UPDATE_BOARD = 'UPDATE_BOARD'
-const RESET_BOARD = 'RESET_BOARD'
+const RESET_GAME = 'RESET_GAME'
 const SWAP_FRIEND_FOE = 'SWAP_FRIEND_FOE'
-const CHANGE_MODE = 'CHANGE_MODE'
+const SET_MODE = 'SET_MODE'
+const COMPLETED_GAME = 'COMPLETED_GAME'
 const DECLARE_WINNER = 'DECLARE_WINNER'
 
-const updateBoard = index => ({
+export const updateBoard = index => ({
   type: UPDATE_BOARD,
   index,
 })
 
-const resetBoard = () => ({
-  type: RESET_BOARD,
+export const resetGame = () => ({
+  type: RESET_GAME,
 })
 
-const swapFriendFoe = () => ({
+export const swapFriendFoe = () => ({
   type: SWAP_FRIEND_FOE,
 })
 
-const changeMode = mode => ({
-  type: CHANGE_MODE,
+export const setMode = mode => ({
+  type: SET_MODE,
   mode,
+})
+
+export const completedGame = () => ({
+  type: COMPLETED_GAME,
+})
+
+export const declareWinner = winner => ({
+  type: DECLARE_WINNER,
+  winner,
 })
 
 const initialState = Map({
@@ -29,32 +39,40 @@ const initialState = Map({
   friend: 'x',
   foe: 'o',
   mode: 'hard',
+  complete: false,
   winner: null,
-  rowPoints: Map({ friend: 12, foe: 8, blank: 1, mixed: 0 }),
 })
 
-const gameReducer = (game = initialState, action) => {
+const gameReducer = (gameState = initialState, action) => {
 
   switch (action.type) {
 
     case UPDATE_BOARD:
-      return game.update('board', boardValue => boardValue.set(action.index, game.get('friend')))
+      return gameState.update('board', boardValue => boardValue.set(action.index, gameState.get('friend')))
 
-    case RESET_BOARD:
-      return game.update('board', initialState.get('board'))
+    case RESET_GAME:
+      return initialState.set('mode', gameState.get('mode'))
 
     case SWAP_FRIEND_FOE: {
-      const currFriend = game.get('friend')
-      const currFoe = game.get('foe')
-      let newState = game.set('friend', currFoe)
-      newState = game.set('foe', currFriend)
+      const currFriend = gameState.get('friend')
+      const currFoe = gameState.get('foe')
+      let newState = gameState.set('friend', currFoe)
+      newState = gameState.set('foe', currFriend)
       return newState
     }
 
-    case CHANGE_MODE:
-      return game.set('mode', action.mode)
+    case SET_MODE:
+      return gameState.set('mode', action.mode)
+
+    case COMPLETED_GAME:
+      return gameState.set('mode', true)
+
+    case DECLARE_WINNER:
+      return gameState.set('winner', action.winner)
 
     default:
-      return game
+      return gameState
   }
 }
+
+export default gameReducer
