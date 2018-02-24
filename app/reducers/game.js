@@ -4,6 +4,7 @@ const UPDATE_BOARD = 'UPDATE_BOARD'
 const RESET_GAME = 'RESET_GAME'
 const SWAP_FRIEND_FOE = 'SWAP_FRIEND_FOE'
 const SET_MODE = 'SET_MODE'
+const SET_PLAYER = 'SET_PLAYER'
 const COMPLETED_GAME = 'COMPLETED_GAME'
 const DECLARE_WINNER = 'DECLARE_WINNER'
 
@@ -25,6 +26,11 @@ export const setMode = mode => ({
   mode,
 })
 
+export const setPlayer = player => ({
+  type: SET_PLAYER,
+  player,
+})
+
 export const completedGame = () => ({
   type: COMPLETED_GAME,
 })
@@ -38,6 +44,7 @@ const initialState = Map({
   board: List(['', '', '', '', '', '', '', '', '']),
   friend: 'x',
   foe: 'o',
+  player: 'x',
   mode: 'hard',
   complete: false,
   winner: null,
@@ -57,15 +64,18 @@ const gameReducer = (gameState = initialState, action) => {
       const currFriend = gameState.get('friend')
       const currFoe = gameState.get('foe')
       let newState = gameState.set('friend', currFoe)
-      newState = gameState.set('foe', currFriend)
+      newState = newState.set('foe', currFriend)
       return newState
     }
 
     case SET_MODE:
       return gameState.set('mode', action.mode)
 
+    case SET_PLAYER:
+      return gameState.set('player', action.player)
+
     case COMPLETED_GAME:
-      return gameState.set('mode', true)
+      return gameState.set('complete', true)
 
     case DECLARE_WINNER:
       return gameState.set('winner', action.winner)
