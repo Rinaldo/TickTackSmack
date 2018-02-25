@@ -1,5 +1,5 @@
 import store from './store'
-import { updateBoard, swapFriendFoe, completedGame, declareWinner, setMode, resetGame } from './reducers/game'
+import { updateBoard, swapFriendFoe, completedGame, declareWinner, setMode, setPlayer, resetGame } from './reducers/game'
 
 const friendPts = 12
 const foePts = 8
@@ -66,7 +66,6 @@ const calculateCellScores = rowScores => {
   const cellScores = board.map(function (cell, index) {
     return cell ? -1 : cellRows[index].reduce((total, item) => total + rowScores[item], 0)
   })
-  console.log(cellScores)
   return cellScores
 }
 
@@ -157,10 +156,21 @@ const changeMode = mode => {
   store.dispatch(resetGame())
 }
 
+const compFirst = () => {
+  store.dispatch(setPlayer('o'))
+  go()
+}
+
+const reset = () => {
+  store.dispatch(resetGame())
+}
+
 const game = {
   enter,
   go,
   changeMode,
+  compFirst,
+  reset,
 }
 
 export default game

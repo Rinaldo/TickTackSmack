@@ -10,7 +10,6 @@ red and blue: https://www.canva.com/learn/website-color-schemes/
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
-  /* background-color: #F1F0EB */
 }
 svg {
   height: 100%;
@@ -22,11 +21,11 @@ body {
   font-family: sans-serif;
 }
 .board-wrapper {
-  padding: 10vw;
+  padding: 8vw;
   background-color:#03245A;
   width: 80vw;
   height: 80vw;
-  margin: 10vw auto;
+  margin: 4vw auto;
 }
 .board {
   display: flex;
@@ -40,9 +39,63 @@ body {
   border: 0.75vw solid #E5F6F6;
   padding: 3vw;
 }
+.board-cell[index="0"] {
+  border-left: none;
+  border-top: none;
+}
+.board-cell[index="1"] {
+  border-top: none;
+}
+.board-cell[index="2"] {
+  border-right: none;
+  border-top: none;
+}
+.board-cell[index="3"] {
+  border-left: none;
+}
+.board-cell[index="5"] {
+  border-right: none;
+}
+.board-cell[index="6"] {
+  border-left: none;
+  border-bottom: none;
+}
+.board-cell[index="7"] {
+  border-bottom: none;
+}
+.board-cell[index="8"] {
+  border-right: none;
+  border-bottom: none;
+}
 .header {
+  display: flex;
+  justify-content: space-between;
   background-color:#041852;
   color: 	#F6F2F9;
-  height: 60px;
-  font-size: 36px;
+  height: 42px;
+  font-size: 20px;
+  padding: 0.2em 0.5em;
+}
+.menu-icon {
+  height: 26px;
+  width: 26px;
+}
+.modes-menu {
+  display: none;
+}
+.game-button {
+  display: block;
+  margin: auto;
+  font-size: 20px;
+  color: white;
+  background-color:#03245A;
+  border: none;
+  padding: 0.5em 1.5em;
+
+}
+.game-status {
+  color: white;
+  text-align: center;
+  font-size: 40px;
+  margin: 0.5em;
 }

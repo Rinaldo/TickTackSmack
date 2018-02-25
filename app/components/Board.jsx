@@ -11,7 +11,6 @@ const Board = props => {
 
   const selectCell = event => {
     if (!props.complete && props.friend === props.player) {
-      //console.log('sending selection to game')
       game.enter(+event.target.getAttribute('index'))
       setTimeout(game.go, 500)
     } else {
@@ -21,9 +20,7 @@ const Board = props => {
 
   return (
     <div className="board-wrapper">
-    {/* <button onClick={() => game.go()}>Computer go</button> */}
       <div className="board">
-
         {props.board.map((cell, index) => (
           <div key={index} className="board-cell" index={index} onClick={selectCell}>
             {cell === 'x' && <XIcon />}
