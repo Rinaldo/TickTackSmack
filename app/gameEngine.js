@@ -151,14 +151,15 @@ const go = () => {
   enter(choice);
 }
 
-const changeMode = mode => {
-  store.dispatch(setMode(mode))
-  store.dispatch(resetGame())
-}
-
 const compFirst = () => {
   store.dispatch(setPlayer('o'))
   go()
+}
+
+const changeMode = mode => {
+  store.dispatch(setMode(mode))
+  store.dispatch(resetGame())
+  if (mode === 'smackdown') compFirst()
 }
 
 const reset = () => {

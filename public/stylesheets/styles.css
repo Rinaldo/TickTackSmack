@@ -18,10 +18,19 @@ svg {
 }
 body {
   background-color:#084885;
+}
+.main {
+  background-color:#084885;
   font-family: sans-serif;
+  height: calc(100vh - 42px);
+  width: 100vw;
+}
+.main-smackdown {
+  background-color:rgb(187, 0, 0);
 }
 .content {
-  margin-top: 60px;
+  margin-top: 42px;
+  padding-top: 1px;
 }
 .board-wrapper {
   padding: 8vw;
@@ -29,6 +38,9 @@ body {
   width: 80vw;
   height: 80vw;
   margin: 4vw auto;
+}
+.main-smackdown .board-wrapper {
+  background-color:rgb(122, 1, 1);
 }
 .board {
   display: flex;
@@ -83,6 +95,9 @@ body {
   height: 42px;
   font-size: 20px;
 }
+.main-smackdown .header {
+  background-color: rgb(68, 0, 0);
+}
 .header h2 {
   margin-left: 0.5em;
 }
@@ -104,6 +119,9 @@ body {
   list-style: none;
   background-color: #03245A;
 }
+.main-smackdown .modes-menu {
+  background-color:rgb(122, 1, 1);
+}
 .modes-menu li {
   margin: 0.5em;
 }
@@ -122,7 +140,9 @@ body {
   background-color:#03245A;
   border: none;
   padding: 0.5em 1.5em;
-
+}
+.main-smackdown .game-button {
+  background-color:rgb(122, 1, 1);
 }
 .game-status {
   color: white;

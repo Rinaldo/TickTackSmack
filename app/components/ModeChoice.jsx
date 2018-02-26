@@ -20,7 +20,7 @@ class ModeChoice extends Component {
 
   render() {
     return (
-      <div className={`${this.state.mode}-mode`}>
+      <div>
         <GameStatus />
         <GameButton />
         <Board />

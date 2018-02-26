@@ -9,5 +9,5 @@ render(
   <Provider store={store}>
     <Main />
   </Provider>,
-  document.getElementById('main')
+  document.getElementById('app')
 )
