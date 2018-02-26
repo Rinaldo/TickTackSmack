@@ -1,5 +1,3 @@
-/* eslint class-methods-use-this: 0 */
-
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
