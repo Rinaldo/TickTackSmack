@@ -15,7 +15,7 @@ const GameButton = props => {
 
 const mapState = state => ({
   numTurns: state.getIn(['gameState', 'board']).filter(Boolean).size,
-  mode: state.getIn(['gameState', 'mode'])
+  // mode: state.getIn(['gameState', 'mode'])
 })
 
 export default connect(mapState)(GameButton)

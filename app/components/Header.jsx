@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 class Header extends Component {
 
@@ -38,14 +38,14 @@ class Header extends Component {
   render() {
     return (
       <div className="header">
-        <h2>TicTacToe</h2>
+        <h2><Link to="/hard">TicTacToe</Link></h2>
         <div className="dropdown" onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave} onClick={this.mouseClick}>
           <img className="menu-icon" src="menu.svg" />
           <ul className={`modes-menu modes-menu-${this.state.open ? 'open' : 'closed'}`}>
             <li ><NavLink to="/easy">Easy</NavLink></li>
             <li ><NavLink to="/hard">Hard</NavLink></li>
             <li ><NavLink to="/smackdown">Smackdown</NavLink></li>
-            <li ><NavLink to="/multiplayer">Multiplayer</NavLink></li>
+            {/* <li ><NavLink to="/multiplayer">Multiplayer</NavLink></li> */}
           </ul>
         </div>
       </div>

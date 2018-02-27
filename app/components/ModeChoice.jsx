@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import Board from './Board.jsx'
 import GameStatus from './GameStatus.jsx'
 import GameButton from './GameButton.jsx'
+import Audio from './Audio.jsx'
 
 import game from '../gameEngine'
 
@@ -24,6 +25,7 @@ class ModeChoice extends Component {
         <GameStatus />
         <GameButton />
         <Board />
+        {this.state.mode === 'smackdown' && <Audio />}
       </div>
     )
   }
