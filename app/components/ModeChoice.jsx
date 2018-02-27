@@ -5,6 +5,7 @@ import Board from './Board.jsx'
 import GameStatus from './GameStatus.jsx'
 import GameButton from './GameButton.jsx'
 import soundEffects from '../sounds/soundEffects.js'
+import song from '../sounds/song.js'
 
 import game from '../gameEngine'
 
@@ -20,7 +21,10 @@ class ModeChoice extends Component {
     if (this.state.mode === 'smackdown') {
       soundEffects()
       game.changePlayer('o')
-      setTimeout(game.go.bind(game), 2400)
+      setTimeout(() => {
+        song()
+        game.go()
+      }, 2400)
     }
   }
 
