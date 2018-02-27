@@ -156,10 +156,13 @@ const compFirst = () => {
   go()
 }
 
+const changePlayer = player => {
+  store.dispatch(setPlayer(player))
+}
+
 const changeMode = mode => {
   store.dispatch(setMode(mode))
   store.dispatch(resetGame())
-  if (mode === 'smackdown') compFirst()
 }
 
 const reset = () => {
@@ -170,6 +173,7 @@ const game = {
   enter,
   go,
   changeMode,
+  changePlayer,
   compFirst,
   reset,
 }

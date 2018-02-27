@@ -45,7 +45,6 @@ class Header extends Component {
             <li ><NavLink to="/easy">Easy</NavLink></li>
             <li ><NavLink to="/hard">Hard</NavLink></li>
             <li ><NavLink to="/smackdown">Smackdown</NavLink></li>
-            {/* <li ><NavLink to="/multiplayer">Multiplayer</NavLink></li> */}
           </ul>
         </div>
       </div>

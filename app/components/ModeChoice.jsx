@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import Board from './Board.jsx'
 import GameStatus from './GameStatus.jsx'
 import GameButton from './GameButton.jsx'
-import Audio from './Audio.jsx'
+import soundEffects from '../sounds/soundEffects.js'
 
 import game from '../gameEngine'
 
@@ -17,6 +17,11 @@ class ModeChoice extends Component {
 
   componentDidMount() {
     game.changeMode(this.state.mode)
+    if (this.state.mode === 'smackdown') {
+      soundEffects()
+      game.changePlayer('o')
+      setTimeout(game.go.bind(game), 2400)
+    }
   }
 
   render() {
@@ -25,7 +30,6 @@ class ModeChoice extends Component {
         <GameStatus />
         <GameButton />
         <Board />
-        {this.state.mode === 'smackdown' && <Audio />}
       </div>
     )
   }
