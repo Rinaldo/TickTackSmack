@@ -19,9 +19,6 @@ svg {
 body {
   background-color:#084885;
 }
-h2 {
-  font-weight: normal;
-}
 .main {
   background-color:#084885;
   font-family: sans-serif;
@@ -112,7 +109,12 @@ h2 {
   background-color: rgb(68, 0, 0);
 }
 .header h2 {
-  margin-left: 0.5em;
+  margin-left: 16px;
+  font-size: 28px;
+}
+.main-smackdown .header h2 {
+  font-weight: normal;
+  font-size: 24px;
 }
 .header a {
   color: white;
@@ -122,10 +124,14 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  font-size: 18px;
+}
+.main-smackdown .dropdown {
+  font-size: 17px;
 }
 .menu-icon {
   height: 42px;
-  padding: 6px 20px;
+  padding: 8px 20px;
 }
 .modes-menu {
   position: absolute;
@@ -134,13 +140,13 @@ h2 {
   text-decoration: none;
   list-style: none;
   background-color: #03245A;
-  border: 1px solid white;
+  /* border: 1px solid white; */
 }
 .main-smackdown .modes-menu {
   background-color:rgb(122, 1, 1);
 }
 .modes-menu li {
-  border-bottom: 1px solid white;
+  /* border-bottom: 1px solid white; */
 }
 .modes-menu li:last-of-type {
   border-bottom: none;
@@ -149,11 +155,13 @@ h2 {
   display: block;
   width: 100%;
   height: 100%;
-  padding: 0.5em;
-  padding-left: 1em;
+  padding: 9px 12px 9px 18px;
 }
 .modes-menu .active {
   background-color: rgb(30, 67, 128);
+}
+.main-smackdown .modes-menu .active {
+  background-color: rgb(153, 19, 19);
 }
 .modes-menu-closed {
   display: none;
@@ -166,19 +174,23 @@ h2 {
   color: white;
   background-color:#03245A;
   border: none;
-  padding: 0.5em 1.5em;
+  min-height: 45px;
+  padding: 10px 30px;
 }
 .main-smackdown .game-button {
   background-color:rgb(122, 1, 1);
+  font-size: 18px;
 }
 .game-status {
   color: white;
   text-align: center;
   font-size: 40px;
-  margin: 0.5em;
-  /* animation-name: impact;
-  transition-timing-function: ease-in;
-  animation-duration: 0.2s; */
+  min-height: 50px;
+  margin: 24px;
+  font-weight: normal;
+}
+.main-smackdown .game-status {
+  font-size: 36px;
 }
 #tick {
   display: inline-block;
@@ -209,5 +221,35 @@ h2 {
 
   to {
     opacity: 1;
+  }
+}
+
+@media (min-width: 600px) {
+  .board-wrapper {
+    height: 480px;
+    width: 480px;
+    padding: 48px;
+    margin: 24px auto;
+  }
+  .board-cell {
+    border: 4.5px solid white;
+  }
+}
+
+@media (min-width: 1024px) {
+  .modes-menu {
+    top: 0px;
+    display: flex;
+    flex-direction: row;
+    border: none;
+  }
+  .modes-menu li {
+    border: none;
+  }
+  .modes-menu a {
+    padding: 10.5px 18px;
+  }
+  .main-smackdown .modes-menu a {
+    padding: 9px 12px;
   }
 }
