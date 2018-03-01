@@ -13,7 +13,10 @@ class ModeChoice extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { mode: props.match.path.slice(1) || 'hard' }
+    this.state = {
+      mode: props.match.path.slice(1) || 'hard'
+
+    }
   }
 
   componentDidMount() {
@@ -21,10 +24,18 @@ class ModeChoice extends Component {
     if (this.state.mode === 'smackdown') {
       soundEffects()
       game.changePlayer('o')
-      setTimeout(() => {
-        song()
+      this.songDelay = setTimeout(() => {
+        song.play()
         game.go()
       }, 2400)
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.state.mode === 'smackdown') {
+      clearTimeout(this.songDelay)
+      song.currentTime = 0
+      song.pause()
     }
   }
 
