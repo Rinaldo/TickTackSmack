@@ -145,9 +145,6 @@ body {
 .main-smackdown .modes-menu {
   background-color:rgb(83, 2, 2);
 }
-.modes-menu li {
-  /* border-bottom: 1px solid white; */
-}
 .modes-menu li:last-of-type {
   border-bottom: none;
 }
@@ -226,7 +223,19 @@ body {
     font-size: 31px;
   }
 }
-@media (min-width: 600px) {
+@media (min-width: 500px) {
+  .board-wrapper {
+    height: 400px;
+    width: 400px;
+    padding: 40px;
+    margin: 24px auto;
+  }
+  .board-cell {
+    border: 3.75px solid white;
+    padding: 15px;
+  }
+}
+@media (min-width: 600px) and (min-height: 720px) {
   .board-wrapper {
     height: 480px;
     width: 480px;
@@ -235,9 +244,9 @@ body {
   }
   .board-cell {
     border: 4.5px solid white;
+    padding: 18px;
   }
 }
-
 @media (min-width: 1024px) {
   .modes-menu {
     top: 0px;
