@@ -6,6 +6,12 @@ const foePts = 8
 const blankPts = 1
 const mixedPts = 0
 
+/* hardcoded edgecases */
+// foe in middle, friend in corner
+const edgeCase0 = [mixedPts, blankPts, blankPts, foePts, foePts, foePts, friendPts, friendPts]
+// foe-friend-foe on diagonal
+const edgeCase1 = [foePts, foePts, foePts, foePts, friendPts, friendPts, friendPts, foePts * friendPts * foePts]
+
 const getRandomElement = array => {
   return array[Math.floor((Math.random() * array.length))]
 }
@@ -14,21 +20,22 @@ const calculateRowScores = () => {
   // using toJS to avoid rewriting this function
   const gameState = store.getState().get('gameState')
   const board = gameState.get('board').toJS()
-  let rowScores = [];
-  let pointsBoard = board.map((cell) => {
+  const pointsBoard = board.map((cell) => {
     if (cell === gameState.get('friend')) return friendPts
     if (cell === gameState.get('foe')) return foePts
     else return blankPts
   });
   // specific cells that make up each row
-  rowScores[0] = pointsBoard[0] * pointsBoard[1] * pointsBoard[2];
-  rowScores[1] = pointsBoard[3] * pointsBoard[4] * pointsBoard[5];
-  rowScores[2] = pointsBoard[6] * pointsBoard[7] * pointsBoard[8];
-  rowScores[3] = pointsBoard[0] * pointsBoard[3] * pointsBoard[6];
-  rowScores[4] = pointsBoard[1] * pointsBoard[4] * pointsBoard[7];
-  rowScores[5] = pointsBoard[2] * pointsBoard[5] * pointsBoard[8];
-  rowScores[6] = pointsBoard[0] * pointsBoard[4] * pointsBoard[8];
-  rowScores[7] = pointsBoard[2] * pointsBoard[4] * pointsBoard[6];
+  const rowScores = [
+  pointsBoard[0] * pointsBoard[1] * pointsBoard[2],
+  pointsBoard[3] * pointsBoard[4] * pointsBoard[5],
+  pointsBoard[6] * pointsBoard[7] * pointsBoard[8],
+  pointsBoard[0] * pointsBoard[3] * pointsBoard[6],
+  pointsBoard[1] * pointsBoard[4] * pointsBoard[7],
+  pointsBoard[2] * pointsBoard[5] * pointsBoard[8],
+  pointsBoard[0] * pointsBoard[4] * pointsBoard[8],
+  pointsBoard[2] * pointsBoard[4] * pointsBoard[6],
+  ]
 
   // set mixed (friend, foe, and blank) rows to the mixedPts constant
   const fixedScores = rowScores.map(rowPts => (rowPts === friendPts * foePts ? mixedPts : rowPts))
@@ -40,11 +47,6 @@ const calculateCellScores = rowScores => {
   // using toJS to avoid rewriting this function
   const board = store.getState().getIn(['gameState', 'board']).toJS()
   const numTurns = board.filter(Boolean).length
-  // hardcoded edgecases
-  //edgeCase0: foe in middle, friend in corner
-  const edgeCase0 = [mixedPts, blankPts, blankPts, foePts, foePts, foePts, friendPts, friendPts]
-  // edgeCase1: foe-friend-foe on diagonal
-  const edgeCase1 = [foePts, foePts, foePts, foePts, friendPts, friendPts, friendPts, foePts * friendPts * foePts]
 
   // provides correct hint to maximize chance of creating fork
   if (numTurns === 2 && rowScores.slice().sort((a, b) => a - b).toString() === edgeCase0.toString()) {
@@ -52,13 +54,12 @@ const calculateCellScores = rowScores => {
     if (rowScores[6] === 0) rowScores[6] += friendPts + foePts
     else rowScores[7] += friendPts + foePts
   }
-  // fixes score if computer is on receiving end of fork attempt
+  // fixes scoring if computer is on receiving end of fork attempt
   if (numTurns === 3 && rowScores.slice().sort((a, b) => a - b).toString() === edgeCase1.toString()) {
     console.log('edge case 1 found!')
     rowScores[1] += friendPts
     rowScores[4] += friendPts
   }
-
   // list of rows that each cell is a part of
   const cellRows = [[0, 3, 6], [0, 4], [0, 5, 7], [1, 3],
   [1, 4, 6, 7], [1, 5], [2, 3, 7], [2, 4], [2, 5, 6]];
@@ -117,7 +118,7 @@ const goEasy = (gameState, numTurns) => {
   if (numTurns === 0) {
     return getRandomElement([1, 3, 5, 7]);
   } else if (numTurns === 1) {
-    let candidates = [1, 3, 5, 7].filter(elt => !board.get(elt));
+    const candidates = [1, 3, 5, 7].filter(elt => !board.get(elt));
     return getRandomElement(candidates);
   } else if (numTurns === 2) {
     if (board.get(1) === gameState.get('friend') && !board.get(7)) {
