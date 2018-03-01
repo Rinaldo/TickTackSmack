@@ -151,22 +151,23 @@ const go = () => {
   enter(choice);
 }
 
-const compFirst = () => {
-  store.dispatch(setPlayer('o'))
-  go()
+const reset = () => {
+  store.dispatch(resetGame())
 }
 
 const changePlayer = player => {
   store.dispatch(setPlayer(player))
 }
 
-const changeMode = mode => {
-  store.dispatch(setMode(mode))
-  store.dispatch(resetGame())
+const compFirst = () => {
+  reset()
+  changePlayer('o')
+  go()
 }
 
-const reset = () => {
-  store.dispatch(resetGame())
+const changeMode = mode => {
+  store.dispatch(setMode(mode))
+  reset()
 }
 
 const game = {
