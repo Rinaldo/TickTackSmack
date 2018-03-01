@@ -26,7 +26,7 @@ body {
   width: 100vw;
 }
 .main-smackdown {
-  background-color:rgb(187, 0, 0);
+  background-color:rgb(170, 3, 3);
   font-family: 'Frijole';
 }
 .content {
@@ -41,7 +41,7 @@ body {
   margin: 4vw auto;
 }
 .main-smackdown .board-wrapper {
-  background-color:rgb(122, 1, 1);
+  background-color:rgb(116, 0, 0);
 }
 .board {
   display: flex;
@@ -100,13 +100,13 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color:#041852;
+  background-color:rgb(3, 29, 70);
   color: white;
   height: 42px;
   font-size: 20px;
 }
 .main-smackdown .header {
-  background-color: rgb(68, 0, 0);
+  background-color: rgb(83, 2, 2);
 }
 .header h2 {
   margin-left: 16px;
@@ -139,11 +139,11 @@ body {
   text-align: right;
   text-decoration: none;
   list-style: none;
-  background-color: #03245A;
+  background-color: rgb(3, 29, 70);
   /* border: 1px solid white; */
 }
 .main-smackdown .modes-menu {
-  background-color:rgb(122, 1, 1);
+  background-color:rgb(83, 2, 2);
 }
 .modes-menu li {
   /* border-bottom: 1px solid white; */
@@ -158,10 +158,10 @@ body {
   padding: 9px 12px 9px 18px;
 }
 .modes-menu .active {
-  background-color: rgb(30, 67, 128);
+  background-color: #063969;
 }
 .main-smackdown .modes-menu .active {
-  background-color: rgb(153, 19, 19);
+  background-color: rgb(121, 4, 4);
 }
 .modes-menu-closed {
   display: none;
@@ -178,7 +178,7 @@ body {
   padding: 10px 30px;
 }
 .main-smackdown .game-button {
-  background-color:rgb(122, 1, 1);
+  background-color:rgb(102, 4, 4);
   font-size: 18px;
 }
 .game-status {
@@ -209,7 +209,6 @@ body {
     opacity: 0;
     transform: scale3d(3, 3, 3);
   }
-
   50% {
     opacity: 1;
   }
@@ -218,12 +217,15 @@ body {
   from {
     opacity: 0;
   }
-
   to {
     opacity: 1;
   }
 }
-
+@media (max-width: 410px) {
+  .main-smackdown .game-status {
+    font-size: 31px;
+  }
+}
 @media (min-width: 600px) {
   .board-wrapper {
     height: 480px;
