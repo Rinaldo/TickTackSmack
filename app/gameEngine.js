@@ -65,8 +65,8 @@ const calculateCellScores = rowScores => {
   const cellScores = board.map((cell, index) => {
     return cell ? -1 : cellRows.get(index).reduce((accum, currVal) => accum + rowScores.get(currVal), 0)
   })
-  // using toJS to avoid rewriting downstream functions
-  return cellScores.toJS()
+
+  return cellScores
 }
 
 const updateCompletionStatus = () => {
@@ -102,7 +102,7 @@ const enter = position => {
 const choose = () => {
 
   const cellScores = calculateCellScores(calculateRowScores())
-  const maxValue = Math.max(...cellScores)
+  const maxValue = Math.max(...cellScores.toJS())
   const candidates = []
 
   cellScores.forEach((cell, index) => {
