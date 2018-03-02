@@ -1,6 +1,8 @@
 import store from './store'
+import Immutable, { List, equals } from 'immutable'
 import { updateBoard, swapFriendFoe, completedGame, declareWinner, setMode, setPlayer, resetGame } from './reducers/game'
 
+// points for calculating row scores
 const friendPts = 12
 const foePts = 8
 const blankPts = 1
@@ -8,35 +10,37 @@ const mixedPts = 0
 
 /* hardcoded edgecases */
 // foe in middle, friend in corner
-const edgeCase0 = [mixedPts, blankPts, blankPts, foePts, foePts, foePts, friendPts, friendPts]
+const edgeCase0 = List([mixedPts, blankPts, blankPts, foePts, foePts, foePts, friendPts, friendPts])
 // foe-friend-foe on diagonal
-const edgeCase1 = [foePts, foePts, foePts, foePts, friendPts, friendPts, friendPts, foePts * friendPts * foePts]
+const edgeCase1 = List([foePts, foePts, foePts, foePts, friendPts, friendPts, friendPts, foePts * friendPts * foePts])
+
+// list of rows that each cell is a part of
+const cellRows = Immutable.fromJS([[0, 3, 6], [0, 4], [0, 5, 7], [1, 3], [1, 4, 6, 7], [1, 5], [2, 3, 7], [2, 4], [2, 5, 6]])
 
 const getRandomElement = array => {
   return array[Math.floor((Math.random() * array.length))]
 }
 
 const calculateRowScores = () => {
-  // using toJS to avoid rewriting this function
+
   const gameState = store.getState().get('gameState')
-  const board = gameState.get('board').toJS()
-  const pointsBoard = board.map((cell) => {
+  const board = gameState.get('board')
+  const pointsBoard = board.map(cell => {
     if (cell === gameState.get('friend')) return friendPts
     if (cell === gameState.get('foe')) return foePts
     else return blankPts
   });
   // specific cells that make up each row
-  const rowScores = [
-  pointsBoard[0] * pointsBoard[1] * pointsBoard[2],
-  pointsBoard[3] * pointsBoard[4] * pointsBoard[5],
-  pointsBoard[6] * pointsBoard[7] * pointsBoard[8],
-  pointsBoard[0] * pointsBoard[3] * pointsBoard[6],
-  pointsBoard[1] * pointsBoard[4] * pointsBoard[7],
-  pointsBoard[2] * pointsBoard[5] * pointsBoard[8],
-  pointsBoard[0] * pointsBoard[4] * pointsBoard[8],
-  pointsBoard[2] * pointsBoard[4] * pointsBoard[6],
-  ]
-
+  const rowScores = List([
+  pointsBoard.get(0) * pointsBoard.get(1) * pointsBoard.get(2),
+  pointsBoard.get(3) * pointsBoard.get(4) * pointsBoard.get(5),
+  pointsBoard.get(6) * pointsBoard.get(7) * pointsBoard.get(8),
+  pointsBoard.get(0) * pointsBoard.get(3) * pointsBoard.get(6),
+  pointsBoard.get(1) * pointsBoard.get(4) * pointsBoard.get(7),
+  pointsBoard.get(2) * pointsBoard.get(5) * pointsBoard.get(8),
+  pointsBoard.get(0) * pointsBoard.get(4) * pointsBoard.get(8),
+  pointsBoard.get(2) * pointsBoard.get(4) * pointsBoard.get(6),
+  ])
   // set mixed (friend, foe, and blank) rows to the mixedPts constant
   const fixedScores = rowScores.map(rowPts => (rowPts === friendPts * foePts ? mixedPts : rowPts))
 
@@ -44,34 +48,29 @@ const calculateRowScores = () => {
 }
 
 const calculateCellScores = rowScores => {
-  // using toJS to avoid rewriting this function
-  const board = store.getState().getIn(['gameState', 'board']).toJS()
-  const numTurns = board.filter(Boolean).length
 
-  // provides correct hint to maximize chance of creating fork
-  if (numTurns === 2 && rowScores.slice().sort((a, b) => a - b).toString() === edgeCase0.toString()) {
-    console.log('edge case 0 found!')
-    if (rowScores[6] === 0) rowScores[6] += friendPts + foePts
-    else rowScores[7] += friendPts + foePts
+  const board = store.getState().getIn(['gameState', 'board'])
+  const numTurns = board.filter(Boolean).size
+
+  // provides correct scoring to maximize chance of creating fork for opponent
+  if (numTurns === 2 && rowScores.sort().equals(edgeCase0)) {
+    if (rowScores.get(6) === 0) rowScores = rowScores.set(6, rowScores.get(6) + friendPts + foePts)
+    else rowScores = rowScores.set(7, rowScores.get(7) + friendPts + foePts)
   }
   // fixes scoring if computer is on receiving end of fork attempt
-  if (numTurns === 3 && rowScores.slice().sort((a, b) => a - b).toString() === edgeCase1.toString()) {
-    console.log('edge case 1 found!')
-    rowScores[1] += friendPts
-    rowScores[4] += friendPts
+  if (numTurns === 3 && rowScores.sort().equals(edgeCase1)) {
+    rowScores = rowScores.set(1, rowScores.get(1) + friendPts)
+    rowScores = rowScores.set(4, rowScores.get(4) + friendPts)
   }
-  // list of rows that each cell is a part of
-  const cellRows = [[0, 3, 6], [0, 4], [0, 5, 7], [1, 3],
-  [1, 4, 6, 7], [1, 5], [2, 3, 7], [2, 4], [2, 5, 6]];
-
-  const cellScores = board.map(function (cell, index) {
-    return cell ? -1 : cellRows[index].reduce((total, item) => total + rowScores[item], 0)
+  const cellScores = board.map((cell, index) => {
+    return cell ? -1 : cellRows.get(index).reduce((accum, currVal) => accum + rowScores.get(currVal), 0)
   })
-  return cellScores
+  // using toJS to avoid rewriting downstream functions
+  return cellScores.toJS()
 }
 
 const updateCompletionStatus = () => {
-  //console.log('updating status')
+
   const rowScores = calculateRowScores()
   if (rowScores.indexOf(Math.pow(friendPts, 3)) !== -1) {
     store.dispatch(completedGame())
@@ -90,6 +89,7 @@ const updateCompletionStatus = () => {
 const enter = position => {
 
   const cell = store.getState().getIn(['gameState', 'board']).get(position)
+
   if (!store.getState().getIn(['gameState', 'complete']) && !cell) {
     store.dispatch(updateBoard(position))
     updateCompletionStatus()
@@ -100,21 +100,23 @@ const enter = position => {
 }
 
 const choose = () => {
+
   const cellScores = calculateCellScores(calculateRowScores())
   const maxValue = Math.max(...cellScores)
   const candidates = []
 
-  cellScores.forEach(function (cell, index) {
+  cellScores.forEach((cell, index) => {
     if (cell === maxValue) {
       candidates.push(index)
     }
   })
-  //console.log('choices:', candidates)
   return candidates;
 }
 
 const goEasy = (gameState, numTurns) => {
+
   const board = gameState.get('board')
+
   if (numTurns === 0) {
     return getRandomElement([1, 3, 5, 7]);
   } else if (numTurns === 1) {
@@ -135,9 +137,11 @@ const goEasy = (gameState, numTurns) => {
 }
 
 const go = () => {
+
   const gameState = store.getState().get('gameState')
   const numTurns = gameState.get('board').filter(Boolean).size
   let choice;
+
   if (gameState.get('mode') === 'easy') {
     choice = goEasy(gameState, numTurns);
   } else if (numTurns === 0) {
