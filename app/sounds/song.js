@@ -1,5 +1,5 @@
 const xSong = document.createElement('audio')
-xSong.src = './X-Gon-Give-It.mp3'
+xSong.src = './media/x-gon-give-it.mp3'
 xSong.preload = 'auto'
 
 export default xSong

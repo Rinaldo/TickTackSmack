@@ -40,7 +40,7 @@ class Header extends Component {
       <div className="header">
         <h2><Link to="/hard">TicTacToe</Link></h2>
         <div className="dropdown" onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave} onClick={this.mouseClick}>
-          <img className="menu-icon" src="menu.svg" />
+          <img className="menu-icon" src="./media/menu-icon.svg" />
           <ul className={`modes-menu modes-menu-${this.state.open ? 'open' : 'closed'}`}>
             <li ><NavLink to="/easy">Easy</NavLink></li>
             <li ><NavLink to="/hard">Hard</NavLink></li>
