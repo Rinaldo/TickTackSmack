@@ -27,7 +27,7 @@ body {
 }
 .main-smackdown {
   background-color:rgb(170, 3, 3);
-  font-family: 'Frijole';
+  font-family: 'Frijole', sans-serif;
 }
 .content {
   margin-top: 42px;
