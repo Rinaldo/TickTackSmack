@@ -1,5 +1,13 @@
-const xSong = document.createElement('audio')
-xSong.src = './media/x-gon-give-it.mp3'
-xSong.preload = 'auto'
+export const song = document.createElement('audio')
+// xSong.src = './media/x-gon-give-it.mp3'
+// xSong.preload = 'auto'
 
-export default xSong
+const playSong = () => {
+  if (!song.src) {
+    song.src = './media/x-gon-give-it.mp3'
+    song.preload = 'auto'
+  }
+  song.play()
+}
+
+export default playSong

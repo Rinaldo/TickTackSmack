@@ -1,19 +1,13 @@
-const impactSound1 = document.createElement('audio')
-impactSound1.src = './media/impact-sound-effect.mp3'
-impactSound1.preload = 'auto'
-const impactSound2 = impactSound1.cloneNode()
-const impactSound3 = impactSound1.cloneNode()
+export const impactSounds = document.createElement('audio')
 
-const SoundEffects = () => {
+const playSoundEffects = () => {
+  if (!impactSounds.src) {
+    impactSounds.src = './media/impact-sounds.mp3'
+    impactSounds.preload = 'auto'
+  }
   setTimeout(() => {
-    impactSound1.play()
-    setTimeout(() => {
-      impactSound2.play()
-      setTimeout(() => {
-        impactSound3.play()
-      }, 600)
-    }, 600)
-  }, 200)
+    impactSounds.play()
+  }, 400)
 }
 
-export default SoundEffects
+export default playSoundEffects

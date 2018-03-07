@@ -191,15 +191,15 @@ body {
 }
 #tick {
   display: inline-block;
-  animation: impact 0.2s ease-in 0s backwards;
+  animation: impact 0.2s ease-in 0.2s backwards;
 }
 #tack {
   display: inline-block;
-  animation: impact 0.2s ease-in 0.6s backwards;
+  animation: impact 0.2s ease-in 0.8s backwards;
 }
 #smack {
   display: inline-block;
-  animation: impact 0.2s ease-in 1.2s backwards;
+  animation: impact 0.2s ease-in 1.4s backwards;
 }
 @keyframes impact {
   from {
