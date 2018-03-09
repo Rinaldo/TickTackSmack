@@ -10,11 +10,8 @@ import { updateBoard } from '../reducers/game'
 const Board = props => {
 
   const selectCell = event => {
-    if (!props.complete && props.friend === props.player) {
+    if (!props.complete && props.friend === props.player && +event.target.getAttribute('index') !== null) {
       game.enter(+event.target.getAttribute('index'))
-      setTimeout(game.go, 500)
-    } else {
-      console.log(`can't move right now`)
     }
   }
 

@@ -22,7 +22,6 @@ class ModeChoice extends Component {
   }
 
   componentDidMount() {
-    console.log('MOUNTING COMP')
     const isMobile = typeof window.orientation !== 'undefined' || navigator.userAgent.indexOf('IEMobile') !== -1
     game.changeMode(this.state.mode)
     if (this.state.mode === 'smackdown' && (this.props.audioAllowed || !isMobile)) {

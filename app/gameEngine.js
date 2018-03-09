@@ -86,19 +86,6 @@ const updateCompletionStatus = () => {
   }
 }
 
-const enter = position => {
-
-  const cell = store.getState().getIn(['gameState', 'board']).get(position)
-
-  if (!store.getState().getIn(['gameState', 'complete']) && !cell) {
-    store.dispatch(updateBoard(position))
-    updateCompletionStatus()
-    if (!store.getState().getIn(['gameState', 'complete'])) {
-      store.dispatch(swapFriendFoe())
-    }
-  }
-}
-
 const choose = () => {
 
   const cellScores = calculateCellScores(calculateRowScores())
@@ -154,6 +141,25 @@ const go = () => {
     choice = getRandomElement(choose());
   }
   enter(choice);
+}
+
+const enter = position => {
+
+  const state = store.getState()
+  const cell = state.getIn(['gameState', 'board']).get(position)
+  const playersTurn = state.getIn(['gameState', 'player']) === state.getIn(['gameState', 'friend'])
+
+  if (!store.getState().getIn(['gameState', 'complete']) && !cell) {
+    console.log('condition met')
+    store.dispatch(updateBoard(position))
+    updateCompletionStatus()
+    if (!store.getState().getIn(['gameState', 'complete'])) {
+      store.dispatch(swapFriendFoe())
+      if (playersTurn) {
+        setTimeout(go, 500)
+      }
+    }
+  }
 }
 
 const reset = () => {
