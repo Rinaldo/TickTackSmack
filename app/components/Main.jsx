@@ -7,8 +7,8 @@ import ModeChoice from './ModeChoice.jsx'
 
 import { setIsMobile, setAudioAllowed } from '../reducers/mobile'
 
-import { impactSounds } from '../sounds/soundEffects.js'
-import { song } from '../sounds/song.js'
+import { soundEffects, setSoundEffectsSource } from '../sounds/soundEffects.js'
+import { song, setSongSource } from '../sounds/song.js'
 
 class Main extends Component {
 
@@ -22,14 +22,8 @@ class Main extends Component {
     this.props.setIsMobile(isMobile)
     if (!isMobile) {
       this.props.setAudioAllowed(true)
-      if (!song.src) {
-        song.src = './media/x-gon-give-it.mp3'
-        song.preload = 'auto'
-      }
-      if (!impactSounds.src) {
-        impactSounds.src = './media/impact-sounds.mp3'
-        impactSounds.preload = 'auto'
-      }
+      setSongSource()
+      setSoundEffectsSource()
     }
   }
 
@@ -37,11 +31,9 @@ class Main extends Component {
     if (!this.props.isMobile || this.props.audioAllowed) return
     this.props.setAudioAllowed(true)
     song.play()
-    song.src = './media/x-gon-give-it.mp3'
-    song.preload = 'auto'
-    impactSounds.play()
-    impactSounds.src = './media/impact-sounds.mp3'
-    impactSounds.preload = 'auto'
+    setSongSource()
+    soundEffects.play()
+    setSoundEffectsSource()
   }
 
   render() {

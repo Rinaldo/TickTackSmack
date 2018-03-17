@@ -1,12 +1,16 @@
-export const impactSounds = document.createElement('audio')
+export const soundEffects = document.createElement('audio')
+
+export const setSoundEffectsSource = () => {
+  if (!soundEffects.src) {
+    soundEffects.src = './media/impact-sounds.mp3'
+    soundEffects.preload = 'auto'
+  }
+}
 
 const playSoundEffects = () => {
-  if (!impactSounds.src) {
-    impactSounds.src = './media/impact-sounds.mp3'
-    impactSounds.preload = 'auto'
-  }
+  setSoundEffectsSource()
   setTimeout(() => {
-    impactSounds.play()
+    soundEffects.play()
   }, 400)
 }
 
