@@ -37,7 +37,7 @@ class Header extends Component {
 
   render() {
     return (
-      <div className="header">
+      <div className="header" onClick={this.props.click}>
         <h2><Link to="/hard">TicTacToe</Link></h2>
         <div className="dropdown" onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave} onClick={this.mouseClick}>
           <img className="menu-icon" src="./media/menu-icon.svg" />

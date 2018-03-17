@@ -1,8 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import song from '../sounds/song.js'
-
 const GameStatus = props => {
 
   return (

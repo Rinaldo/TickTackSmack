@@ -47,8 +47,8 @@ class Main extends Component {
   render() {
     return (
       <Router>
-        <div className={`main main-${this.props.mode}`} onClick={this.allowAudio}>
-          <Header />
+        <div className={`main main-${this.props.mode}`}>
+          <Header click={this.allowAudio} />
           <div className="content">
             <Route exact path="/" render={() => <Redirect to="/hard" />} />
             <Route exact path="/easy" component={ModeChoice} />

@@ -4,12 +4,12 @@ import { connect } from 'react-redux'
 import Board from './Board.jsx'
 import GameStatus from './GameStatus.jsx'
 import GameButton from './GameButton.jsx'
-import playSoundEffects, { impactSounds } from '../sounds/soundEffects.js'
+import playSoundEffects from '../sounds/soundEffects.js'
 import playSong, { song } from '../sounds/song.js'
 
 import game from '../gameEngine'
 
-import { setIsMobile, setAudioAllowed } from '../reducers/mobile'
+import { setAudioAllowed } from '../reducers/mobile'
 
 class ModeChoice extends Component {
 
@@ -24,8 +24,11 @@ class ModeChoice extends Component {
   componentDidMount() {
     const isMobile = typeof window.orientation !== 'undefined' || navigator.userAgent.indexOf('IEMobile') !== -1
     game.changeMode(this.state.mode)
-    if (this.state.mode === 'smackdown' && (this.props.audioAllowed || !isMobile)) {
-      this.startSmackdown()
+    if (this.state.mode === 'smackdown') {
+      game.changePlayer('o')
+      if (this.props.audioAllowed || !isMobile) {
+        this.startSmackdown()
+      }
     }
   }
 
@@ -38,12 +41,14 @@ class ModeChoice extends Component {
   }
 
   startSmackdown() {
+    this.props.setAudioAllowed(true)
     game.changePlayer('o')
-      playSoundEffects()
-      this.songDelay = setTimeout(() => {
-        playSong()
-        game.go()
-      }, 2600)
+    playSoundEffects()
+    if (!song.src) song.play()
+    this.songDelay = setTimeout(() => {
+      playSong()
+      game.go()
+    }, 2600)
   }
 
   render() {
