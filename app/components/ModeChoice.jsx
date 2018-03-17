@@ -42,9 +42,8 @@ class ModeChoice extends Component {
 
   startSmackdown() {
     if (!this.props.audioAllowed) this.props.setAudioAllowed(true)
-    game.changePlayer('o')
     playSoundEffects()
-    if (!song.src) song.play()
+    if (!song.src) song.play() // necessary because playSong is invoked from setTimeout, not directly from click handler
     this.songDelay = setTimeout(() => {
       playSong()
       game.go()

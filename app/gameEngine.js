@@ -21,6 +21,7 @@ const getRandomElement = array => {
   return array[Math.floor((Math.random() * array.length))]
 }
 
+// calculates row scores by multiplying the point values of the cells in each row
 const calculateRowScores = () => {
 
   const gameState = store.getState().get('gameState')
@@ -47,6 +48,7 @@ const calculateRowScores = () => {
   return fixedScores;
 }
 
+// calculates cell scores by summing the row scores of the rows the cell is in
 const calculateCellScores = rowScores => {
 
   const board = store.getState().getIn(['gameState', 'board'])
@@ -100,6 +102,7 @@ const choose = () => {
   return candidates;
 }
 
+// hard coded bad moves for the first 3 turns, otherwise plays as normal
 const goEasy = (gameState, numTurns) => {
 
   const board = gameState.get('board')
@@ -150,7 +153,6 @@ const enter = position => {
   const playersTurn = state.getIn(['gameState', 'player']) === state.getIn(['gameState', 'friend'])
 
   if (!store.getState().getIn(['gameState', 'complete']) && !cell) {
-    console.log('condition met')
     store.dispatch(updateBoard(position))
     updateCompletionStatus()
     if (!store.getState().getIn(['gameState', 'complete'])) {

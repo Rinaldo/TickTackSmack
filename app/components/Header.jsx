@@ -7,7 +7,7 @@ class Header extends Component {
     super(props)
     this.state = {
       open: false,
-      justTriggered: false,
+      justTriggered: false, // on mobile a tap registers both a click and a mouseEnter event, the timeout prevents taps from toggling open/close twice
     }
     this.mouseClick = this.mouseClick.bind(this)
     this.mouseEnter = this.mouseEnter.bind(this)
@@ -15,11 +15,9 @@ class Header extends Component {
   }
 
   mouseClick() {
-    //console.log('clicking')
     if (!this.state.justTriggered) this.setState({ open: !this.state.open })
   }
   mouseEnter() {
-    //console.log('entering')
     this.setState({
       open: true,
       justTriggered: true,
@@ -27,7 +25,6 @@ class Header extends Component {
     setTimeout(() => this.setState({ justTriggered: false}), 100)
   }
   mouseLeave() {
-    //console.log('leaving')
     this.setState({
       open: false,
       justTriggered: true,

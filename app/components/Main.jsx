@@ -22,11 +22,12 @@ class Main extends Component {
     if (!isMobile) this.props.setAudioAllowed(true)
   }
 
+  // workaround for restriction on autoplaying audio on mobile
   allowAudio() {
     if (this.props.audioAllowed) return
     this.props.setAudioAllowed(true)
-    song.play()
-    setSongSource()
+    song.play() // play an empty audio element on click, gaining control of it so we can play it again later
+    setSongSource() // setting the audio source so we can later play the sound we want
     soundEffects.play()
     setSoundEffectsSource()
   }
