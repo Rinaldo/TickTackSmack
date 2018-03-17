@@ -41,7 +41,7 @@ class ModeChoice extends Component {
   }
 
   startSmackdown() {
-    this.props.setAudioAllowed(true)
+    if (!this.props.audioAllowed) this.props.setAudioAllowed(true)
     game.changePlayer('o')
     playSoundEffects()
     if (!song.src) song.play()

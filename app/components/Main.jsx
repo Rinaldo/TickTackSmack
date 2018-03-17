@@ -20,11 +20,7 @@ class Main extends Component {
   componentDidMount() {
     const isMobile = typeof window.orientation !== 'undefined' || navigator.userAgent.indexOf('IEMobile') !== -1
     this.props.setIsMobile(isMobile)
-    if (!isMobile) {
-      this.props.setAudioAllowed(true)
-      setSongSource()
-      setSoundEffectsSource()
-    }
+    if (!isMobile) this.props.setAudioAllowed(true)
   }
 
   allowAudio() {
