@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom'
 
 import Header from './Header.jsx'
 import ModeChoice from './ModeChoice.jsx'
+import About from './About.jsx'
+import InfoButton from './icons/InfoButton.jsx'
 
 import { setAudioAllowed } from '../reducers/mobile'
 
@@ -42,6 +44,8 @@ class Main extends Component {
             <Route exact path="/easy" component={ModeChoice} />
             <Route exact path="/hard" component={ModeChoice} />
             <Route exact path="/smackdown" component={ModeChoice} />
+            <Route exact path="/about" component={About} />
+            <InfoButton />
           </div>
         </div>
       </Router>
