@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import Header from './Header.jsx'
 import ModeChoice from './ModeChoice.jsx'
 
-import { setIsMobile, setAudioAllowed } from '../reducers/mobile'
+import { setAudioAllowed } from '../reducers/mobile'
 
 import { soundEffects, setSoundEffectsSource } from '../sounds/soundEffects.js'
 import { song, setSongSource } from '../sounds/song.js'
@@ -19,12 +19,11 @@ class Main extends Component {
 
   componentDidMount() {
     const isMobile = typeof window.orientation !== 'undefined' || navigator.userAgent.indexOf('IEMobile') !== -1
-    this.props.setIsMobile(isMobile)
     if (!isMobile) this.props.setAudioAllowed(true)
   }
 
   allowAudio() {
-    if (!this.props.isMobile || this.props.audioAllowed) return
+    if (this.props.audioAllowed) return
     this.props.setAudioAllowed(true)
     song.play()
     setSongSource()
@@ -51,11 +50,9 @@ class Main extends Component {
 
 const mapState = state => ({
   mode: state.getIn(['gameState', 'mode']),
-  isMobile: state.getIn(['mobileState', 'isMobile']),
   audioAllowed: state.getIn(['mobileState', 'audioAllowed']),
 })
 const mapDispatch = dispatch => ({
-  setIsMobile: bool => dispatch(setIsMobile(bool)),
   setAudioAllowed: bool => dispatch(setAudioAllowed(bool)),
 })
 
