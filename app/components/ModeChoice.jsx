@@ -22,10 +22,11 @@ class ModeChoice extends Component {
   }
 
   componentDidMount() {
-    const isMobile = typeof window.orientation !== 'undefined' || navigator.userAgent.indexOf('IEMobile') !== -1
     game.changeMode(this.state.mode)
     if (this.state.mode === 'smackdown') {
       game.changePlayer('o')
+      const isMobile = typeof window.orientation !== 'undefined' ||
+        navigator.userAgent.indexOf('IEMobile') !== -1
       if (this.props.audioAllowed || !isMobile) {
         this.startSmackdown()
       }
@@ -41,7 +42,7 @@ class ModeChoice extends Component {
   }
 
   startSmackdown() {
-    if (!this.props.audioAllowed) this.props.setAudioAllowed(true)
+    if (!this.props.audioAllowed) this.props.setAudioAllowed()
     playSoundEffects()
     if (!song.src) song.play() // necessary because playSong is invoked from setTimeout, not directly from click handler
     this.songDelay = setTimeout(() => {
@@ -65,7 +66,7 @@ const mapState = state => ({
   audioAllowed: state.getIn(['mobileState', 'audioAllowed']),
 })
 const mapDispatch = dispatch => ({
-  setAudioAllowed: bool => dispatch(setAudioAllowed(bool)),
+  setAudioAllowed: () => dispatch(setAudioAllowed()),
 })
 
 export default connect(mapState, mapDispatch)(ModeChoice)

@@ -20,14 +20,15 @@ class Main extends Component {
   }
 
   componentDidMount() {
-    const isMobile = typeof window.orientation !== 'undefined' || navigator.userAgent.indexOf('IEMobile') !== -1
-    if (!isMobile) this.props.setAudioAllowed(true)
+    const isMobile = typeof window.orientation !== 'undefined' ||
+      navigator.userAgent.indexOf('IEMobile') !== -1
+    if (!isMobile) this.props.setAudioAllowed()
   }
 
   // workaround for restriction on autoplaying audio on mobile
   allowAudio() {
     if (this.props.audioAllowed) return
-    this.props.setAudioAllowed(true)
+    this.props.setAudioAllowed()
     song.play() // play an empty audio element on click, gaining control of it so we can play it again later
     setSongSource() // setting the audio source so we can later play the sound we want
     soundEffects.play()
@@ -58,7 +59,7 @@ const mapState = state => ({
   audioAllowed: state.getIn(['mobileState', 'audioAllowed']),
 })
 const mapDispatch = dispatch => ({
-  setAudioAllowed: bool => dispatch(setAudioAllowed(bool)),
+  setAudioAllowed: () => dispatch(setAudioAllowed()),
 })
 
 export default connect(mapState, mapDispatch)(Main)

@@ -2,9 +2,8 @@ import { Map } from 'immutable'
 
 const SET_AUDIO_ALLOWED = 'SET_AUDIO_ALLOWED'
 
-export const setAudioAllowed = bool => ({
+export const setAudioAllowed = () => ({
   type: SET_AUDIO_ALLOWED,
-  bool,
 })
 
 const initialState = Map({
@@ -16,7 +15,7 @@ const mobileReducer = (state = initialState, action) => {
   switch (action.type) {
 
     case SET_AUDIO_ALLOWED:
-      return state.set('audioAllowed', action.bool)
+      return state.set('audioAllowed', true)
 
     default:
       return state
