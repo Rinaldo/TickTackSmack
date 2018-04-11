@@ -30,7 +30,7 @@ const calculateRowScores = () => {
     if (cell === gameState.get('friend')) return friendPts
     if (cell === gameState.get('foe')) return foePts
     else return blankPts
-  });
+  })
   // specific cells that make up each row
   const rowScores = List([
   pointsBoard.get(0) * pointsBoard.get(1) * pointsBoard.get(2),
@@ -45,7 +45,7 @@ const calculateRowScores = () => {
   // set mixed (friend, foe, and blank) rows to the mixedPts constant
   const fixedScores = rowScores.map(rowPts => (rowPts === friendPts * foePts ? mixedPts : rowPts))
 
-  return fixedScores;
+  return fixedScores
 }
 
 // calculates cell scores by summing the row scores of the rows the cell is in
@@ -99,7 +99,7 @@ const choose = () => {
       candidates.push(index)
     }
   })
-  return candidates;
+  return candidates
 }
 
 // hard coded bad moves for the first 3 turns, otherwise plays as normal
@@ -108,42 +108,42 @@ const goEasy = (gameState, numTurns) => {
   const board = gameState.get('board')
 
   if (numTurns === 0) {
-    return getRandomElement([1, 3, 5, 7]);
+    return getRandomElement([1, 3, 5, 7])
   } else if (numTurns === 1) {
-    const candidates = [1, 3, 5, 7].filter(elt => !board.get(elt));
-    return getRandomElement(candidates);
+    const candidates = [1, 3, 5, 7].filter(elt => !board.get(elt))
+    return getRandomElement(candidates)
   } else if (numTurns === 2) {
     if (board.get(1) === gameState.get('friend') && !board.get(7)) {
-      return 7;
+      return 7
     } else if (board.get(7) === gameState.get('friend') && !board.get(1)) {
-      return 1;
+      return 1
     } else if (board.get(3) === gameState.get('friend') && !board.get(5)) {
-      return 5;
+      return 5
     } else if (board.get(5) === gameState.get('friend') && !board.get(3)) {
-      return 3;
+      return 3
     }
   }
-  return getRandomElement(choose());
+  return getRandomElement(choose())
 }
 
 const go = () => {
 
   const gameState = store.getState().get('gameState')
   const numTurns = gameState.get('board').filter(Boolean).size
-  let choice;
+  let choice
 
   if (gameState.get('mode') === 'easy') {
-    choice = goEasy(gameState, numTurns);
+    choice = goEasy(gameState, numTurns)
   } else if (numTurns === 0) {
     if (gameState.get('mode') === 'smackdown') {
-      choice = getRandomElement([0, 2, 6, 8]);
+      choice = getRandomElement([0, 2, 6, 8])
     } else {
-      choice = getRandomElement([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+      choice = getRandomElement([0, 1, 2, 3, 4, 5, 6, 7, 8])
     }
   } else {
-    choice = getRandomElement(choose());
+    choice = getRandomElement(choose())
   }
-  enter(choice);
+  enter(choice)
 }
 
 const enter = position => {
