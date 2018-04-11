@@ -24,7 +24,6 @@ class ModeChoice extends Component {
   componentDidMount() {
     game.changeMode(this.state.mode)
     if (this.state.mode === 'smackdown') {
-      game.changePlayer('o')
       const isMobile = typeof window.orientation !== 'undefined' ||
         navigator.userAgent.indexOf('IEMobile') !== -1
       if (this.props.audioAllowed || !isMobile) {

@@ -1,6 +1,6 @@
 import store from './store'
 import Immutable, { List } from 'immutable'
-import { updateBoard, swapFriendFoe, completedGame, declareWinner, setMode, setPlayer, resetGame } from './reducers/game'
+import { updateBoard, swapFriendFoe, declareWinner, setMode, setPlayer, resetGame } from './reducers/game'
 
 // points for calculating row scores
 const friendPts = 12
@@ -93,16 +93,14 @@ const updateCompletionStatus = () => {
   const threeFoesInARow = rowScores.includes(Math.pow(foePts, 3))
 
   if (threeFriendsInARow) {
-    store.dispatch(completedGame())
     store.dispatch(declareWinner(friend))
   } else if (threeFoesInARow) {
-    store.dispatch(completedGame())
     store.dispatch(declareWinner(foe))
   }
   const cellScores = calculateCellScores(rowScores)
 
   if (cellScores.every(score => score === -1)) {
-    store.dispatch(completedGame())
+    store.dispatch(declareWinner())
   }
 }
 
@@ -185,26 +183,19 @@ const reset = () => {
   store.dispatch(resetGame())
 }
 
-const changePlayer = player => {
-  store.dispatch(setPlayer(player))
-}
-
 const compFirst = () => {
-  reset()
-  changePlayer('o')
+  store.dispatch(setPlayer('o'))
   go()
 }
 
 const changeMode = mode => {
   store.dispatch(setMode(mode))
-  reset()
 }
 
 const game = {
   enter,
   go,
   changeMode,
-  changePlayer,
   compFirst,
   reset,
 }
