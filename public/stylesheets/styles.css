@@ -154,8 +154,14 @@ body {
 .modes-menu .active {
   background-color: #063969;
 }
+.modes-menu a:hover {
+  background-color: #215080;
+}
 .main-smackdown .modes-menu .active {
-  background-color: #790404;
+  background-color: #7c0505;
+}
+.main-smackdown .modes-menu a:hover {
+  background-color: #911818;
 }
 .modes-menu-closed {
   display: none;
