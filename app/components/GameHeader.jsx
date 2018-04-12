@@ -1,3 +1,5 @@
+/* eslint-disable no-nested-ternary */
+
 import React from 'react'
 import { connect } from 'react-redux'
 
@@ -5,11 +7,22 @@ const GameHeader = props => {
 
   return (
     <h2 className="game-header">
-      {(!props.complete && props.mode !== 'smackdown') && 'Play TicTacToe!'}
-      {(!props.complete && props.mode === 'smackdown' && props.audioAllowed) && (<span><span id="tick">Tick</span><span id="tack">Tack</span><span id="smack">Smack</span></span>)}
-      {(!props.complete && props.mode === 'smackdown' && !props.audioAllowed) && (<span onClick={props.startSmackdown}>Tap to begin</span>)}
-      {(props.complete && props.winner) && `${props.winner.toUpperCase()} Wins!`}
-      {(props.complete && !props.winner) && 'Draw'}
+      {(props.complete && !props.winner) ?
+        'Draw'
+
+      : (props.winner) ?
+        `${props.winner.toUpperCase()} Wins!`
+
+      : (props.mode !== 'smackdown') ?
+        'Play TicTacToe!'
+
+      : (props.audioAllowed) ?
+        (<span><span id="tick">Tick</span><span id="tack">Tack</span><span id="smack">Smack</span></span>)
+
+      : (!props.audioAllowed) ?
+        (<span onClick={props.startSmackdown}>Tap to begin</span>)
+
+      : null}
     </h2>
   )
 }

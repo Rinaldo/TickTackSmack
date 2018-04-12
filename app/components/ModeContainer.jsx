@@ -25,7 +25,7 @@ class ModeContainer extends Component {
     game.changeMode(this.state.mode)
     if (this.state.mode === 'smackdown') {
       const isMobile = typeof window.orientation !== 'undefined' ||
-        navigator.userAgent.indexOf('IEMobile') !== -1
+        navigator.userAgent.includes('IEMobile')
       if (this.props.audioAllowed || !isMobile) {
         this.startSmackdown()
       }

@@ -12,7 +12,12 @@ const GameButton = props => {
   const text = !props.numTurns && props.mode !== 'smackdown' ? 'let computer go first' : 'reset game'
 
   return (
-    <button className="game-button" onClick={clickHandler} disabled={props.mode === 'smackdown' && !props.numTurns}>{text}</button>
+    <button
+      className="game-button"
+      onClick={clickHandler}
+      disabled={props.mode === 'smackdown' && !props.numTurns}>
+      {text}
+    </button>
   )
 }
 
