@@ -21,7 +21,7 @@ const getRandomElement = array => {
   return array[Math.floor((Math.random() * array.length))]
 }
 
-// maps board of x's and o's to board of friend, foe, and blank points
+// maps board of x's, o's, and blanks to board of friend, foe, and blank points
 const getPointsBoard = () => {
   const gameState = store.getState().get('gameState')
   const board = gameState.get('board')
@@ -55,8 +55,8 @@ const calculateRowScores = () => {
   return fixedScores
 }
 
+// adjusts scores in cases where algorithm fails to see fork
 const fixEdgeCases = (rowScores, board) => {
-
   const numTurns = board.filter(Boolean).size
   // provides correct scoring to maximize chance of creating fork for opponent
   if (numTurns === 2 && rowScores.sort().equals(edgeCase0)) {
@@ -66,8 +66,9 @@ const fixEdgeCases = (rowScores, board) => {
   }
   // fixes scoring if computer is on receiving end of fork attempt
   else if (numTurns === 3 && rowScores.sort().equals(edgeCase1)) {
-    rowScores = rowScores.set(1, rowScores.get(1) + friendPts)
-    rowScores = rowScores.set(4, rowScores.get(4) + friendPts)
+    rowScores = rowScores.withMutations(scores => {
+      scores.set(1, rowScores.get(1) + friendPts).set(4, rowScores.get(4) + friendPts)
+    })
   }
   return rowScores
 }
@@ -78,49 +79,42 @@ const calculateCellScores = rowScores => {
   const fixedScores = fixEdgeCases(rowScores, board)
 
   return board.map((cell, index) => {
-    return cell ? -1 : cellRows.get(index).reduce((accum, currVal) => accum + fixedScores.get(currVal), 0)
+    return cell ? -1 : cellRows.get(index).reduce((accum, curr) => accum + fixedScores.get(curr), 0)
   })
 }
 
+const endGame = friendOrFoe => {
+  store.dispatch(declareWinner(friendOrFoe ? store.getState().getIn(['gameState', friendOrFoe]) : null))
+  return store.getState().getIn(['gameState', 'complete'])  // should always be true
+}
+
 const updateCompletionStatus = () => {
-
-  const gameState = store.getState().get('gameState')
-  const friend = gameState.get('friend')
-  const foe = gameState.get('foe')
-
   const rowScores = calculateRowScores()
   const threeFriendsInARow = rowScores.includes(Math.pow(friendPts, 3))
   const threeFoesInARow = rowScores.includes(Math.pow(foePts, 3))
 
-  if (threeFriendsInARow) {
-    store.dispatch(declareWinner(friend))
-  } else if (threeFoesInARow) {
-    store.dispatch(declareWinner(foe))
-  }
-  const cellScores = calculateCellScores(rowScores)
+  if (threeFriendsInARow) return endGame('friend')
+  else if (threeFoesInARow) return endGame('foe')
 
-  if (cellScores.every(score => score === -1)) {
-    store.dispatch(declareWinner())
-  }
+  const draw = calculateCellScores(rowScores).every(score => score === -1)
+  if (draw) return endGame()
+
+  return store.getState().getIn(['gameState', 'complete'])  // should always be false at this point
 }
 
 const choose = () => {
-
   const cellScores = calculateCellScores(calculateRowScores())
-  const maxValue = Math.max(...cellScores.toJS())
+  const maxValue = cellScores.max()
   const candidates = []
 
   cellScores.forEach((cell, index) => {
-    if (cell === maxValue) {
-      candidates.push(index)
-    }
+    if (cell === maxValue) candidates.push(index)
   })
   return candidates
 }
 
 // hard coded bad moves for the first 3 turns
 const goEasy = (gameState, numTurns) => {
-
   const board = gameState.get('board')
 
   if (numTurns === 0) {
@@ -143,8 +137,7 @@ const goEasy = (gameState, numTurns) => {
   }
 }
 
-const go = () => {
-
+const computerGo = () => {
   const gameState = store.getState().get('gameState')
   const numTurns = gameState.get('board').filter(Boolean).size
   let choice
@@ -162,18 +155,18 @@ const go = () => {
 }
 
 const enter = position => {
-
   const state = store.getState()
-  const cell = state.getIn(['gameState', 'board']).get(position)
+  const cellIsEmpty = !state.getIn(['gameState', 'board']).get(position)
   const playersTurn = state.getIn(['gameState', 'player']) === state.getIn(['gameState', 'friend'])
+  const gameNotComplete = !store.getState().getIn(['gameState', 'complete'])
 
-  if (!store.getState().getIn(['gameState', 'complete']) && !cell) {
+  if (gameNotComplete && cellIsEmpty) {
     store.dispatch(updateBoard(position))
-    updateCompletionStatus()
-    if (!store.getState().getIn(['gameState', 'complete'])) {
+    const gameStillNotComplete = !updateCompletionStatus()
+    if (gameStillNotComplete) {
       store.dispatch(swapFriendFoe())
       if (playersTurn) {
-        setTimeout(go, 500)
+        setTimeout(computerGo, 500)
       }
     }
   }
@@ -185,7 +178,7 @@ const reset = () => {
 
 const compFirst = () => {
   store.dispatch(setPlayer('o'))
-  go()
+  computerGo()
 }
 
 const changeMode = mode => {
@@ -194,7 +187,7 @@ const changeMode = mode => {
 
 const game = {
   enter,
-  go,
+  computerGo,
   changeMode,
   compFirst,
   reset,
