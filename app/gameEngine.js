@@ -1,3 +1,5 @@
+/* eslint-disable no-nested-ternary */
+
 import store from './store'
 import Immutable, { List } from 'immutable'
 import { updateBoard, swapFriendFoe, declareWinner, setMode, setPlayer, resetGame } from './reducers/game'
@@ -113,45 +115,23 @@ const choose = () => {
   return candidates
 }
 
-// hard coded bad moves for the first 3 turns
-const goEasy = (gameState, numTurns) => {
-  const board = gameState.get('board')
-
-  if (numTurns === 0) {
-    return getRandomElement([1, 3, 5, 7])
-  } else if (numTurns === 1) {
-    const candidates = [1, 3, 5, 7].filter(elt => !board.get(elt))
-    return getRandomElement(candidates)
-  } else if (numTurns === 2) {
-    if (board.get(1) === gameState.get('friend') && !board.get(7)) {
-      return 7
-    } else if (board.get(7) === gameState.get('friend') && !board.get(1)) {
-      return 1
-    } else if (board.get(3) === gameState.get('friend') && !board.get(5)) {
-      return 5
-    } else if (board.get(5) === gameState.get('friend') && !board.get(3)) {
-      return 3
-    }
-  } else {
-    return getRandomElement(choose())
-  }
-}
-
 const computerGo = () => {
   const gameState = store.getState().get('gameState')
-  const numTurns = gameState.get('board').filter(Boolean).size
-  let choice
+  const board = gameState.get('board')
+  const numTurns = board.filter(Boolean).size
 
-  if (gameState.get('mode') === 'easy' && numTurns < 3) {
-    choice = goEasy(gameState, numTurns)
-  } else if (numTurns === 0) {
-    choice = gameState.get('mode') === 'smackdown' ?
-      getRandomElement([0, 2, 6, 8]) :
-      getRandomElement([0, 1, 2, 3, 4, 5, 6, 7, 8])
-  } else {
-    choice = getRandomElement(choose())
-  }
-  enter(choice)
+  // using a nested ternary to avoid reassigning the 'choices' variable
+  const choices =
+    // in easy mode go on the sides for the first 3 turns
+    (gameState.get('mode') === 'easy' && numTurns < 3) ? [1, 3, 5, 7].filter(elt => !board.get(elt))
+    // start in the corners for smackdown
+    : (numTurns === 0 && gameState.get('mode') === 'smackdown') ? [0, 2, 6, 8]
+    // start randomly for hard
+    : (numTurns === 0) ? [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    // else let algorithm choose
+    : choose()
+
+  enter(getRandomElement(choices))
 }
 
 const enter = position => {
