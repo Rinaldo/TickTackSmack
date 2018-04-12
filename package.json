@@ -4,7 +4,7 @@
   "description": "With apologies to DMX",
   "main": "./app/index.jsx",
   "scripts": {
-    "start-dev": "webpack-dev-server --history-api-fallback --content-base public/",
+    "start-dev": "webpack-dev-server --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js"
   },
   "author": "",
