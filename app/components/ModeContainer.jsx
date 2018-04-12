@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import Board from './Board.jsx'
 import GameHeader from './GameHeader.jsx'
 import GameButton from './GameButton.jsx'
-import playSoundEffects from '../sounds/soundEffects.js'
+import playSoundEffects, { soundEffects } from '../sounds/soundEffects.js'
 import playSong, { song } from '../sounds/song.js'
 
 import game from '../gameEngine'
@@ -37,6 +37,8 @@ class ModeContainer extends Component {
       clearTimeout(this.songDelay)
       song.currentTime = 0
       song.pause()
+      soundEffects.currentTime = 0
+      soundEffects.pause()
     }
   }
 

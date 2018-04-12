@@ -3,4 +3,8 @@ import rootReducer from './reducers'
 import loggingMiddleware from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 
-export default createStore(rootReducer, applyMiddleware(thunkMiddleware, loggingMiddleware))
+const middlewares = process.env.NODE_ENV !== 'production' ?
+  [thunkMiddleware, loggingMiddleware] :
+  [thunkMiddleware]
+
+export default createStore(rootReducer, applyMiddleware(...middlewares))

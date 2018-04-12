@@ -1,20 +1,22 @@
 {
-  "name": "tictactoe",
+  "name": "ticktacksmack",
   "version": "1.0.0",
-  "description": "",
-  "main": "engine.js",
+  "description": "With apologies to DMX",
+  "main": "./app/index.jsx",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "webpack-dev-server --history-api-fallback --content-base public/"
+    "start-dev": "webpack-dev-server --history-api-fallback --content-base public/",
+    "build": "webpack --config webpack.prod.js"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-react": "^6.24.1",
+    "uglifyjs-webpack-plugin": "^1.2.4",
     "webpack": "^3.11.0",
-    "webpack-dev-server": "^2.11.1"
+    "webpack-dev-server": "^2.11.1",
+    "webpack-merge": "^4.1.2"
   },
   "dependencies": {
     "immutable": "^3.8.2",
