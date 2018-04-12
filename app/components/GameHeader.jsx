@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-const GameStatus = props => {
+const GameHeader = props => {
 
   return (
-    <h2 className="game-status">
+    <h2 className="game-header">
       {(!props.complete && props.mode !== 'smackdown') && 'Play TicTacToe!'}
       {(!props.complete && props.mode === 'smackdown' && props.audioAllowed) && (<span><span id="tick">Tick</span><span id="tack">Tack</span><span id="smack">Smack</span></span>)}
       {(!props.complete && props.mode === 'smackdown' && !props.audioAllowed) && (<span onClick={props.startSmackdown}>Tap to begin</span>)}
@@ -21,4 +21,4 @@ const mapState = state => ({
   audioAllowed: state.getIn(['mobileState', 'audioAllowed']),
 })
 
-export default connect(mapState)(GameStatus)
+export default connect(mapState)(GameHeader)

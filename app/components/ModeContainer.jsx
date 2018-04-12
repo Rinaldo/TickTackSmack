@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import Board from './Board.jsx'
-import GameStatus from './GameStatus.jsx'
+import GameHeader from './GameHeader.jsx'
 import GameButton from './GameButton.jsx'
 import playSoundEffects from '../sounds/soundEffects.js'
 import playSong, { song } from '../sounds/song.js'
@@ -11,7 +11,7 @@ import game from '../gameEngine'
 
 import { setAudioAllowed } from '../reducers/mobile'
 
-class ModeChoice extends Component {
+class ModeContainer extends Component {
 
   constructor(props) {
     super(props)
@@ -46,14 +46,14 @@ class ModeChoice extends Component {
     if (!song.src) song.play() // necessary because playSong is invoked from setTimeout, not directly from click handler
     this.songDelay = setTimeout(() => {
       playSong()
-      game.go()
+      game.computerGo()
     }, 2600)
   }
 
   render() {
     return (
       <div>
-        <GameStatus startSmackdown={this.startSmackdown} />
+        <GameHeader startSmackdown={this.startSmackdown} />
         <GameButton />
         <Board />
       </div>
@@ -68,4 +68,4 @@ const mapDispatch = dispatch => ({
   setAudioAllowed: () => dispatch(setAudioAllowed()),
 })
 
-export default connect(mapState, mapDispatch)(ModeChoice)
+export default connect(mapState, mapDispatch)(ModeContainer)

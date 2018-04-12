@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom'
 
-import Header from './Header.jsx'
-import ModeChoice from './ModeChoice.jsx'
+import Navbar from './Navbar.jsx'
+import ModeContainer from './ModeContainer.jsx'
 import About from './About.jsx'
 import InfoButton from './icons/InfoButton.jsx'
 
@@ -39,12 +39,12 @@ class Main extends Component {
     return (
       <Router>
         <div className={`main main-${this.props.mode}`}>
-          <Header click={this.allowAudio} />
+          <Navbar click={this.allowAudio} />
           <div className="content">
             <Route exact path="/" render={() => <Redirect to="/hard" />} />
-            <Route exact path="/easy" component={ModeChoice} />
-            <Route exact path="/hard" component={ModeChoice} />
-            <Route exact path="/smackdown" component={ModeChoice} />
+            <Route exact path="/easy" component={ModeContainer} />
+            <Route exact path="/hard" component={ModeContainer} />
+            <Route exact path="/smackdown" component={ModeContainer} />
             <Route exact path="/about" component={About} />
             <InfoButton />
           </div>

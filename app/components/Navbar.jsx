@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 
-class Header extends Component {
+class Nabvar extends Component {
 
   constructor(props) {
     super(props)
@@ -34,7 +34,7 @@ class Header extends Component {
 
   render() {
     return (
-      <div className="header" onClick={this.props.click}>
+      <div className="navbar" onClick={this.props.click}>
         <h2><Link to="/hard">TicTacToe</Link></h2>
         <div className="dropdown" onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave} onClick={this.mouseClick}>
           <img className="menu-icon" src="./media/menu-icon.svg" />
@@ -49,4 +49,4 @@ class Header extends Component {
   }
 }
 
-export default Header
+export default Nabvar

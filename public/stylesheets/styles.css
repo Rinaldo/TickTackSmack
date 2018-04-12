@@ -89,7 +89,7 @@ body {
   transition-timing-function: ease-in;
   animation-duration: 0.2s;
 }
-.header {
+.navbar {
   position: fixed;
   top: 0px;
   left: 0px;
@@ -102,18 +102,18 @@ body {
   height: 42px;
   font-size: 20px;
 }
-.main-smackdown .header {
+.main-smackdown .navbar {
   background-color: rgb(83, 2, 2);
 }
-.header h2 {
+.navbar h2 {
   margin-left: 16px;
   font-size: 28px;
 }
-.main-smackdown .header h2 {
+.main-smackdown .navbar h2 {
   font-weight: normal;
   font-size: 24px;
 }
-.header a {
+.navbar a {
   color: white;
   text-decoration: none;
 }
@@ -175,7 +175,7 @@ body {
   background-color:#660404;
   font-size: 18px;
 }
-.game-status {
+.game-header {
   color: white;
   text-align: center;
   font-size: 40px;
@@ -183,7 +183,7 @@ body {
   margin: 24px;
   font-weight: normal;
 }
-.main-smackdown .game-status {
+.main-smackdown .game-header {
   font-size: 36px;
 }
 #tick {
@@ -249,7 +249,7 @@ body {
   }
 }
 @media (max-width: 410px) {
-  .main-smackdown .game-status {
+  .main-smackdown .game-header {
     font-size: 31px;
   }
 }
