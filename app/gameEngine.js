@@ -44,7 +44,8 @@ const pointsBoardToRowScores = pointsBoard => List([
   pointsBoard.get(2) * pointsBoard.get(4) * pointsBoard.get(6),
   ])
 // set mixed (friend, foe, and blank) rows to the mixedPts constant
-const fixMixedRows = rowScores => rowScores.map(rowPts => (rowPts === friendPts * foePts ? mixedPts : rowPts))
+const fixMixedRows = rowScores =>
+  rowScores.map(rowPts => (rowPts === friendPts * foePts * blankPts ? mixedPts : rowPts))
 // calculates row scores by multiplying the point values of the cells in each row
 const calculateRowScores = () => fixMixedRows(pointsBoardToRowScores(getPointsBoard()))
 
