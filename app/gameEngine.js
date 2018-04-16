@@ -21,6 +21,7 @@ const getRandomElement = array => {
   return array[Math.floor((Math.random() * array.length))]
 }
 
+
 // maps board of x's, o's, and blanks to board of friend, foe, and blank points
 const getPointsBoard = () => {
   const gameState = store.getState().get('gameState')
@@ -28,13 +29,9 @@ const getPointsBoard = () => {
   return board.map(cell => {
     if (cell === gameState.get('friend')) return friendPts
     if (cell === gameState.get('foe')) return foePts
-    else return blankPts
+    return blankPts
   })
 }
-
-// set mixed (friend, foe, and blank) rows to the mixedPts constant
-const fixMixedRows = rowScores => rowScores.map(rowPts => (rowPts === friendPts * foePts ? mixedPts : rowPts))
-
 // specific cells that make up each row
 const pointsBoardToRowScores = pointsBoard => List([
   pointsBoard.get(0) * pointsBoard.get(1) * pointsBoard.get(2),
@@ -46,14 +43,11 @@ const pointsBoardToRowScores = pointsBoard => List([
   pointsBoard.get(0) * pointsBoard.get(4) * pointsBoard.get(8),
   pointsBoard.get(2) * pointsBoard.get(4) * pointsBoard.get(6),
   ])
-
+// set mixed (friend, foe, and blank) rows to the mixedPts constant
+const fixMixedRows = rowScores => rowScores.map(rowPts => (rowPts === friendPts * foePts ? mixedPts : rowPts))
 // calculates row scores by multiplying the point values of the cells in each row
-const calculateRowScores = () => {
-  const pointsBoard = getPointsBoard()
-  const rowScores = pointsBoardToRowScores(pointsBoard)
-  const fixedScores = fixMixedRows(rowScores)
-  return fixedScores
-}
+const calculateRowScores = () => fixMixedRows(pointsBoardToRowScores(getPointsBoard()))
+
 
 // adjusts scores in cases where algorithm fails to see fork
 const fixEdgeCases = (rowScores, board) => {
@@ -72,22 +66,28 @@ const fixEdgeCases = (rowScores, board) => {
   }
   return rowScores
 }
-
 // calculates cell scores by summing the row scores of the rows the cell is in
 const calculateCellScores = rowScores => {
   const board = store.getState().getIn(['gameState', 'board'])
   const fixedScores = fixEdgeCases(rowScores, board)
 
-  return board.map((cell, index) => {
-    return cell ? -1 : cellRows.get(index).reduce((accum, curr) => accum + fixedScores.get(curr), 0)
-  })
+  return board.map((cell, index) =>
+    (cell ? -1 : cellRows.get(index).reduce((accum, curr) => accum + fixedScores.get(curr), 0)))
 }
 
+
+const choose = () => {
+  const cellScores = calculateCellScores(calculateRowScores())
+  const maxValue = cellScores.max()
+  const indicesOfMaxValues = cellScores.reduce((indices, cell, index) =>
+    (cell === maxValue ? [...indices, index] : indices), [])
+
+  return indicesOfMaxValues
+}
 const endGame = friendOrFoe => {
   store.dispatch(declareWinner(friendOrFoe ? store.getState().getIn(['gameState', friendOrFoe]) : null))
   return store.getState().getIn(['gameState', 'complete'])  // should always be true
 }
-
 const updateCompletionStatus = () => {
   const rowScores = calculateRowScores()
   const threeFriendsInARow = rowScores.includes(Math.pow(friendPts, 3))
@@ -101,18 +101,6 @@ const updateCompletionStatus = () => {
 
   return store.getState().getIn(['gameState', 'complete'])  // should always be false at this point
 }
-
-const choose = () => {
-  const cellScores = calculateCellScores(calculateRowScores())
-  const maxValue = cellScores.max()
-  const candidates = []
-
-  cellScores.forEach((cell, index) => {
-    if (cell === maxValue) candidates.push(index)
-  })
-  return candidates
-}
-
 const computerGo = () => {
   const gameState = store.getState().get('gameState')
   const board = gameState.get('board')
@@ -131,7 +119,6 @@ const computerGo = () => {
 
   enter(getRandomElement(choices))
 }
-
 const enter = position => {
   const state = store.getState()
   const cellIsEmpty = !state.getIn(['gameState', 'board']).get(position)
@@ -149,6 +136,7 @@ const enter = position => {
     }
   }
 }
+
 
 const reset = () => {
   store.dispatch(resetGame())
