@@ -11,35 +11,28 @@ import game from '../gameEngine'
 
 import { setAudioAllowed } from '../reducers/mobile'
 
-class ModeContainer extends Component {
+class SmackdownContainer extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      mode: props.match.path.slice(1) || 'hard',
-    }
     this.startSmackdown = this.startSmackdown.bind(this)
   }
 
   componentDidMount() {
-    game.changeMode(this.state.mode)
-    if (this.state.mode === 'smackdown') {
-      const isMobile = typeof window.orientation !== 'undefined' ||
-        navigator.userAgent.includes('IEMobile')
-      if (this.props.audioAllowed || !isMobile) {
-        this.startSmackdown()
-      }
+    game.changeMode('smackdown')
+    const isMobile = typeof window.orientation !== 'undefined' ||
+      navigator.userAgent.includes('IEMobile')
+    if (this.props.audioAllowed || !isMobile) {
+      this.startSmackdown()
     }
   }
 
   componentWillUnmount() {
-    if (this.state.mode === 'smackdown') {
-      clearTimeout(this.songDelay)
-      song.currentTime = 0
-      song.pause()
-      soundEffects.currentTime = 0
-      soundEffects.pause()
-    }
+    clearTimeout(this.songDelay)
+    song.currentTime = 0
+    song.pause()
+    soundEffects.currentTime = 0
+    soundEffects.pause()
   }
 
   startSmackdown() {
@@ -70,4 +63,4 @@ const mapDispatch = dispatch => ({
   setAudioAllowed: () => dispatch(setAudioAllowed()),
 })
 
-export default connect(mapState, mapDispatch)(ModeContainer)
+export default connect(mapState, mapDispatch)(SmackdownContainer)

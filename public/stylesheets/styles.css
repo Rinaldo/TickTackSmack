@@ -236,6 +236,9 @@ body {
 .main-smackdown .about {
   background-color: #740000;
 }
+.page-not-found {
+  width: 280px;
+}
 
 @keyframes impact {
   from {

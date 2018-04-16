@@ -3,9 +3,12 @@ import { connect } from 'react-redux'
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom'
 
 import Navbar from './Navbar.jsx'
-import ModeContainer from './ModeContainer.jsx'
+import EasyContainer from './EasyContainer.jsx'
+import HardContainer from './HardContainer.jsx'
+import SmackdownContainer from './SmackdownContainer.jsx'
 import About from './About.jsx'
 import InfoButton from './icons/InfoButton.jsx'
+import PageNotFound from './PageNotFound.jsx'
 
 import { setAudioAllowed } from '../reducers/mobile'
 
@@ -41,11 +44,14 @@ class Main extends Component {
         <div className={`main main-${this.props.mode}`}>
           <Navbar click={this.allowAudio} />
           <div className="content">
-            <Route exact path="/" render={() => <Redirect to="/hard" />} />
-            <Route exact path="/easy" component={ModeContainer} />
-            <Route exact path="/hard" component={ModeContainer} />
-            <Route exact path="/smackdown" component={ModeContainer} />
-            <Route exact path="/about" component={About} />
+            <Switch>
+              <Route exact path="/" render={() => <Redirect to="/hard" />} />
+              <Route exact path="/easy" component={EasyContainer} />
+              <Route exact path="/hard" component={HardContainer} />
+              <Route exact path="/smackdown" component={SmackdownContainer} />
+              <Route exact path="/about" component={About} />
+              <Route component={PageNotFound} />
+            </Switch>
             <InfoButton />
           </div>
         </div>

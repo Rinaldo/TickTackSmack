@@ -1,5 +1,3 @@
-/* eslint-disable no-nested-ternary */
-
 import store from './store'
 import Immutable, { List } from 'immutable'
 import { updateBoard, swapFriendFoe, declareWinner, setMode, setPlayer, resetGame } from './reducers/game'

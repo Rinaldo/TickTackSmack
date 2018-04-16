@@ -1,0 +1,10 @@
+{
+	"root": true,
+	"parser": "babel-eslint",
+	"extends": "fullstack",
+	"rules": {
+		"new-cap": [1, { "capIsNewExceptions": ["Router", "List", "Map"] }],
+		"class-methods-use-this": 0,
+		"no-nested-ternary": 0
+	}
+}
