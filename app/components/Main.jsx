@@ -37,7 +37,7 @@ class Main extends Component {
 
   render() {
     return (
-      <Router>
+      <Router basename={process.env.NODE_ENV === 'production' ? '/TickTackSmack' : ''}>
         <div className={`main main-${this.props.mode}`}>
           <Navbar click={this.allowAudio} />
           <div className="content">
