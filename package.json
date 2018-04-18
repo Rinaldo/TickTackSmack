@@ -2,12 +2,13 @@
   "name": "ticktacksmack",
   "version": "1.0.0",
   "description": "With apologies to DMX",
+  "repository": "github:Rinaldo/TickTackSmack",
   "main": "./app/index.jsx",
   "scripts": {
     "start-dev": "webpack-dev-server --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js"
   },
-  "author": "",
+  "author": "Robert Rinaldo",
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.26.0",
